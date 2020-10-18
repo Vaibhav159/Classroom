@@ -10,5 +10,10 @@ class Question(models.Model):
     description = models.CharField(max_length=500)
     types = models.CharField(
         choices=QUESTION_TYPES, default="MCQ", max_length=200)
-    options = models.CharField(max_length=100)
-    correct_ans = models.CharField(max_length=200)
+    options = models.JSONField(default=dict)
+    correct_ans = models.CharField(max_length=500)
+
+
+class Module(models.Model):
+    moduleId = models.IntegerField()
+    questions = models.ManyToManyField(Question)

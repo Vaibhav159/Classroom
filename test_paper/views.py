@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Question
-from .serializers import QuestionSerializerBeta
+from .serializers import QuestionSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 # Create your views here.
@@ -11,11 +11,11 @@ from rest_framework.views import APIView
 class QuestionAPIView(APIView):
     def get(self, request):
         questions = Question.objects.all()
-        serializer = QuestionSerializerBeta(questions, many=True)
+        serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = QuestionSerializerBeta(data=request.data)
+        serializer = QuestionSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -35,12 +35,12 @@ class QuestionDetailView(APIView):
 
     def get(self, request, pk):
         question = self.get_object(pk)
-        serializer = QuestionSerializerBeta(question)
+        serializer = QuestionSerializer(question)
         return Response(serializer.data)
 
     def put(self, request, pk):
         question = self.get_object(pk)
-        serializer = QuestionSerializerBeta(question, data=request.data)
+        serializer = QuestionSerializer(question, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -58,11 +58,11 @@ def question_list(request):
 
     if request.method == 'GET':
         questions = Question.objects.all()
-        serializer = QuestionSerializerBeta(questions, many=True)
+        serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = QuestionSerializerBeta(data=request.data)
+        serializer = QuestionSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -80,10 +80,10 @@ def question_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializer = QuestionSerializerBeta(question)
+        serializer = QuestionSerializer(question)
         return Response(serializer.data)
     elif request.method == 'PUT':
-        serializer = QuestionSerializerBeta(question, data=request.data)
+        serializer = QuestionSerializer(question, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
