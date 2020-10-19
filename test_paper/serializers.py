@@ -6,7 +6,7 @@ from .models import Question, Module
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'title', 'description', 'options']
+        fields = ['id', 'title', 'description', 'options', 'correct_ans']
 
 
 """class QuestionSerializer(serializers.ModelSerializer):
