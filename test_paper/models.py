@@ -12,8 +12,11 @@ class Question(models.Model):
     types = models.CharField(
         choices=QUESTION_TYPES, default="MCQ", max_length=200)
     options = models.JSONField(default=dict)
-    correct_ans = ArrayField(models.CharField(
-        max_length=1, blank=True), default=list)
+    correct_ans = ArrayField(
+        models.CharField(max_length=10, blank=True),
+        size=8,
+        default=list
+    )
 
 
 class Module(models.Model):

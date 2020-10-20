@@ -1,11 +1,28 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Question
-from .serializers import QuestionSerializer
+from .models import Question, Module
+from .serializers import QuestionSerializer, ModuleSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 # Create your views here.
+
+
+class ModuleAPIView(APIView):
+    def get(self, request):
+        questions = Module.objects.all()
+        serializer = ModuleSerializer(questions, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ModuleSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            return Response(serializer.data, status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 class QuestionAPIView(APIView):
