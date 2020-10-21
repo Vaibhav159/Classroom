@@ -16,6 +16,16 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class ModuleSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(many=True)
+
     class Meta:
         model = Module
-        fields = ['moduleId', 'questions']
+        fields = ['id', 'moduleId', 'questions']
+
+    def create(self, validated_data):
+        question_data = validated_data.pop('questions')
+        module = Module.objects.create(**validated_data)
+        for question in question_data:
+            qs = Question.objects.create(module=module, **question)
+            module.questions.add(qs)
+        return module

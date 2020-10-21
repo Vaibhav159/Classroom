@@ -19,7 +19,6 @@ class ModuleAPIView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
             return Response(serializer.data, status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
@@ -36,7 +35,6 @@ class QuestionAPIView(APIView):
 
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
             return Response(serializer.data, status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)

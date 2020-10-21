@@ -21,4 +21,5 @@ class Question(models.Model):
 
 class Module(models.Model):
     moduleId = models.IntegerField()
-    questions = models.ManyToManyField(Question)
+    questions = models.ManyToManyField(
+        Question)
