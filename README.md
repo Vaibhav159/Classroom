@@ -10,7 +10,7 @@
 ## Setup
 
 1. Download Postgres DB or use Online Insantce of Postgres DB.
-2. Create .env file in main Classroom folder(outer).
+2. Run setup.py to generate .env file in main Classroom folder(outer).
 3. Fill the .env parameters as per the values.
 4. Run commands in Run section to get started.
 

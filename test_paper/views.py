@@ -68,43 +68,29 @@ class QuestionDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'POST'])
-def question_list(request):
+class ModuleDetailView(APIView):
 
-    if request.method == 'GET':
-        questions = Question.objects.all()
-        serializer = QuestionSerializer(questions, many=True)
+    def get_object(self, pk):
+        try:
+            return Module.objects.get(pk=pk)
+        except Module.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, pk):
+        module = self.get_object(pk)
+        serializer = ModuleSerializer(module)
         return Response(serializer.data)
 
-    elif request.method == "POST":
-        serializer = QuestionSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET', "PUT", "DELETE"])
-def question_detail(request, pk):
-
-    try:
-        question = Question.objects.get(pk=pk)
-    except Question.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == "GET":
-        serializer = QuestionSerializer(question)
-        return Response(serializer.data)
-    elif request.method == 'PUT':
-        serializer = QuestionSerializer(question, data=request.data)
+    def put(self, request, pk):
+        module = self.get_object(pk)
+        serializer = ModuleSerializer(module, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
-        question.delete()
+    def delete(self, request, pk):
+        module = self.get_object(pk)
+        module.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
